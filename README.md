@@ -97,6 +97,8 @@ This is a json file including all the function switchers and style settings. Key
 | lockShortcut | object | Information of lock shortcut |
 | cleanShortcut | object | Information of clean shortcut |
 | touchShortcut | object | Enable or disable touch actions for the keyboard |
+| **History Settings** | **vvv** | **vvv** |
+| backupFrequency | number | Backup on $backupFrequency$ hits |
 
 ⚠: Experimental function
 

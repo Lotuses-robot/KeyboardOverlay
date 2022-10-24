@@ -16,5 +16,6 @@
     "ctrlKey": true,
     "altKey": false,
     "metaKey": false
-  }
+  },
+  "backupFrequency": 100
 }

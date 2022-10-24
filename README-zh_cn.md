@@ -97,6 +97,8 @@ npm rebuild --runtime=electron --target=12.0.0 --disturl=https://atom.io/downloa
 |       lockShortcut       |               object                |          锁定的快捷键信息        |
 |      cleanShortcut       |               object                |          清空的快捷键信息        |
 |      touchShortcut       |               object                |          允许或者禁止点击        |
+| **历史设置** | **vvv** | **vvv** |
+| backupFrequency | number | 在 $backupFrequency$ 次点击后备份到 backup.json |
 
 ⚠：实验性功能
 

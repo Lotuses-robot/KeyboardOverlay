@@ -33,7 +33,8 @@
   let cleanShortcutInfo = {};
   let useTouchShortcut = false;
   let touchShortcutInfo = {};
-  
+  let backupFrequency = 100;
+
   const windowsWorkPrefix = "resources/app/"; // You need delete it in npm debug mode
   var fs = require('fs');
 
@@ -54,19 +55,32 @@
       $(`.buttonDiv[key=${keyIdMask(upperKeySet[i].id.toUpperCase())}] > span:first-child`).html(upperIf ? upperKeySet[i].upperKey : upperKeySet[i].name);
   };
 
+  let backupCnt = 0;
+
   const flushDataFile = () => {
     let data = [];
 
     for (var i in keys) {
-      data.push({"key": keys[i].name, "cnt" : (keyCounter[keys[i].name] ? keyCounter[keys[i].name] : 0)});
+      data.push({"key": keys[i].id.toUpperCase(), "cnt" : (keyCounter[keys[i].id.toUpperCase()] ? keyCounter[keys[i].id.toUpperCase()] : 0)});
     }
 
     let str = JSON.stringify(data);
+
     fs.writeFile(windowsWorkPrefix + "data/data.json", str, (err) => {
       if (err) {
         setErrorMessage(`${err}`);
       }
     });
+
+    backupCnt++;
+
+    if (backupCnt >= backupFrequency) {
+      fs.writeFile(windowsWorkPrefix + "data/backup.json", str, (err) => {
+        if (err) {
+          setErrorMessage(`${err}`);
+        }
+      });
+    }
   }
 
   const getColorFromPercent = (x, opa) => {
@@ -855,6 +869,9 @@
         }
         if (data.superTopLevel === true && runInElectron)
           ipcRenderer.send("window-super-top");
+        if (typeof data.backupFrequency === "number") {
+          backupFrequency = data.backupFrequency;
+        }
         if (typeof data.bounceTime === "number")
           document.documentElement.style.setProperty("--bounce-time", data.bounceTime + "ms");
         if (typeof data.lockShortcut === "object" && !data.lockShortcut.hasOwnProperty("length")) {
